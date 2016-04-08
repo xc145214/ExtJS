@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    //定义model
+    Ext.define('TestViewModel', {
+        extend: 'Ext.app.ViewModel',
+
+        alias: 'viewmodel.test', // connects to viewModel/type below
+
+        data: {
+            firstName: 'John',
+            lastName: 'Doe'
+        },
+
+        formulas: {
+            // We'll explain formulas in more detail soon.
+            name: function (get) {
+                var fn = get('firstName'), ln = get('lastName');
+                return (fn && ln) ? (fn + ' ' + ln) : (fn || ln || '');
+            }
+        }
+    });
+
+
+    //定义test
+    Ext.define('TestView', {
+        extend: 'Ext.panel.Panel',
+        layout: 'form',
+
+        // Always use this form when defining a view class. This
+        // allows the creator of the component to pass data without
+        // erasing the ViewModel type that we want.
+        viewModel: {
+            type: 'test'  // references alias "viewmodel.test"
+        },
+
+        bind: {
+            title: 'Hello {name}'
+        },
+
+        defaultType: 'textfield',
+        items: [{
+            fieldLabel: 'First Name',
+            bind: '{firstName}'
+        }, {
+            fieldLabel: 'Last Name',
+            bind: '{lastName}'
+        }, {
+            xtype: 'checkbox',
+            boxLabel: 'Is Admin',
+            reference: 'isAdmin'
+        }, {
+            fieldLabel: 'Admin Key',
+            bind: {
+                disabled: '{!isAdmin.checked}'
+            }
+        }, {
+            xtype: 'button',
+            text: 'Submit',
+            bind: {
+                hidden: '{!name}'
+            }
+        }]
+    });
+
+    Ext.onReady(function () {
+        Ext.create('TestView', {
+            renderTo: Ext.getBody(),
+            width: 400
+        });
+    });
+
+
+</script>
+</body>
+</html>

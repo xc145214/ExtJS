@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    //    显示和隐藏
+
+
+    //单页加载
+    Ext.onReady(function () {
+
+        var panel = Ext.create('Ext.panel.Panel', {
+            renderTo: Ext.getBody(),
+            title: 'Test',
+            html: 'Test Panel',
+            hideMode: 'visibility' // use the CSS visibility property to show and hide thiscomponent
+        });
+
+        console.log(panel.title);
+
+        panel.hide(); // hide the component
+
+        panel.show(); // show the component
+    });
+
+
+</script>
+</body>
+</html>
