@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>form</h1>
+
+<div id="form1"></div>
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    Ext.tip.QuickTipManager.init();  // enable tooltips
+    Ext.onReady(function () {
+// The data store containing the list of states
+        var states = Ext.create('Ext.data.Store', {
+            fields: ['abbr', 'name'],
+            data: [
+                {"abbr": "AL", "name": "Alabama"},
+                {"abbr": "AK", "name": "Alaska"},
+                {"abbr": "AZ", "name": "Arizona"}
+                //...
+            ]
+        });
+
+// Create the combo box, attached to the states data store
+        var combox = Ext.create('Ext.form.ComboBox', {
+            fieldLabel: '下拉选项卡',
+            store: states,
+            queryMode: 'local',
+//            displayField: 'name',
+            valueField: 'abbr',
+            tpl: Ext.create('Ext.XTemplate',
+                    '<tpl for=".">',
+                    '<div class="x-boundlist-item">{abbr} - {name}</div>',
+                    '</tpl>'
+            ),
+            // template for the content inside text field
+            displayTpl: Ext.create('Ext.XTemplate',
+                    '<tpl for=".">',
+                    '{abbr} - {name}',
+                    '</tpl>'
+            ),
+            listeners: {
+                scope: this,
+                'select': function () {
+                    console.info(combox.getValue());
+                }
+            }
+        });
+
+        var htmlEdit = Ext.create('Ext.form.HtmlEditor', {
+            title: 'HTML 编辑前',
+            width: 600,
+            height: 250,
+            frame: true,
+            layout: 'fit',
+            items: {
+                xtype: 'htmleditor',
+                enableColors: false,
+                enableAlignments: false
+            }
+        });
+
+        Ext.create('Ext.form.Panel', {
+            title: 'Basic Form',
+//            renderTo: Ext.get('form1'),
+            renderTo: 'form1',
+            bodyPadding: 5,
+            width: 600,
+
+            // Any configuration items here will be automatically passed along to
+            // the Ext.form.Basic instance when it gets created.
+
+            // The form will submit an AJAX request to this URL when submitted
+            url: 'save-form.php',
+
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: '文本',
+                name: 'theField'
+            }, {
+                xtype: 'fieldcontainer',
+                fieldLabel: '多选checkbox',
+                defaultType: 'checkboxfield',
+                items: [
+                    {
+                        boxLabel: 'Anchovies',
+                        name: 'topping',
+                        inputValue: '1',
+                        id: 'checkbox1'
+                    }, {
+                        boxLabel: 'Artichoke Hearts',
+                        name: 'topping',
+                        inputValue: '2',
+                        checked: true,
+                        id: 'checkbox2'
+                    }, {
+                        boxLabel: 'Bacon',
+                        name: 'topping',
+                        inputValue: '3',
+                        id: 'checkbox3'
+                    }
+                ]
+            },
+                combox,
+                {
+                    xtype: 'datefield',
+                    anchor: '100%',
+                    fieldLabel: '开始时间',
+                    name: 'from_date',
+                    maxValue: new Date(),  // limited to the current date or prior
+                    // The value matches the format; will be parsed and displayed using that format.
+                    format: 'm d Y',
+                    value: '2 4 1978'
+                }, {
+                    xtype: 'datefield',
+                    anchor: '100%',
+                    fieldLabel: '结束时间',
+                    name: 'to_date',
+                    format: 'm d Y',
+                    altFormats: 'm,d,Y|m.d.Y',
+                    value: new Date()  // defaults to today
+                },
+                {
+                    xtype: 'displayfield',
+                    fieldLabel: 'Home',
+                    name: 'home_score',
+                    value: '10'
+                }, {
+                    xtype: 'displayfield',
+                    fieldLabel: 'Visitor',
+                    name: 'visitor_score',
+                    value: '11'
+                },
+                {
+                    xtype: 'filefield',
+                    name: 'photo',
+                    fieldLabel: '文件',
+                    labelWidth: 50,
+                    msgTarget: 'side',
+                    allowBlank: false,
+                    anchor: '100%',
+                    buttonText: 'Select Photo...'
+                },
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Text Field',
+                    name: 'text_field',
+                    value: 'value from text field'
+                }, {
+                    xtype: 'hiddenfield',
+                    name: 'hidden_field_1',
+                    value: 'value from hidden field'
+                },
+                htmlEdit,
+                {
+                    xtype: 'numberfield',
+                    anchor: '100%',
+                    name: 'bottles',
+                    fieldLabel: 'Bottles of Beer',
+                    value: 99,
+                    maxValue: 99,
+                    minValue: 0,
+
+                    // Remove spinner buttons, and arrow key and mouse wheel listeners
+                    hideTrigger: true,
+                    keyNavEnabled: false,
+                    mouseWheelEnabled: false
+                }, {
+                    xtype: 'numberfield',
+                    anchor: '100%',
+                    name: 'evens',
+                    fieldLabel: 'Even Numbers',
+
+                    // Set step so it skips every other number
+                    step: 2,
+                    value: 0,
+
+                    // Add change handler to force user-entered numbers to evens
+                    listeners: {
+                        change: function (field, value) {
+                            value = parseInt(value, 10);
+                            field.setValue(value + value % 2);
+                        }
+                    }
+                }
+            ],
+            bbar: [
+                {
+                    text: 'Select Bacon',
+                    handler: function () {
+                        Ext.getCmp('checkbox3').setValue(true);
+                    }
+                },
+                '-',
+                {
+                    text: 'Select All',
+                    handler: function () {
+                        Ext.getCmp('checkbox1').setValue(true);
+                        Ext.getCmp('checkbox2').setValue(true);
+                        Ext.getCmp('checkbox3').setValue(true);
+                    }
+                },
+                {
+                    text: 'Deselect All',
+                    handler: function () {
+                        Ext.getCmp('checkbox1').setValue(false);
+                        Ext.getCmp('checkbox2').setValue(false);
+                        Ext.getCmp('checkbox3').setValue(false);
+                    }
+                }
+            ],
+            buttons: [{
+                text: 'Upload',
+                handler: function () {
+                    var form = this.up('form').getForm();
+                    if (form.isValid()) {
+                        form.submit({
+                            url: 'photo-upload.php',
+                            waitMsg: 'Uploading your photo...',
+                            success: function (fp, o) {
+                                Ext.Msg.alert('Success', 'Your photo "' + o.result.file + '" has been uploaded.');
+                            }
+                        });
+                    }
+                }
+            }, {
+                text: 'Submit',
+                handler: function () {
+                    // The getForm() method returns the Ext.form.Basic instance:
+                    var form = this.up('form').getForm();
+                    if (form.isValid()) {
+
+                        console.log(form);
+                        // Submit the Ajax request and handle the response
+                        form.submit({
+                            success: function (form, action) {
+                                Ext.Msg.alert('Success', action.result.message);
+                            },
+                            failure: function (form, action) {
+                                Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+                            }
+                        });
+                    }
+                }
+            },
+                {
+                    text: '隐藏域提交',
+                    handler: function () {
+                        this.up('form').getForm().submit({
+                            params: {
+                                hidden_field_2: 'value from submit call'
+                            }
+                        });
+                    }
+                },
+                {
+                    text: 'Take one down, pass it around',
+                    handler: function () {
+                        this.up('form').down('[name=bottles]').spinDown();
+                    }
+                }
+            ]
+        });
+
+    });
+
+
+</script>
+</body>
+</html>

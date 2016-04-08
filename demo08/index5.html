@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>login</h1>
+
+<div id="login1"></div>
+<div id="login2"></div>
+
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+
+    Ext.onReady(function () {
+
+
+        /**
+         * 定义controller
+         */
+
+        Ext.define('MyApp.controller.Login', {
+            extend: 'Ext.app.ViewController',
+            alias: 'controller.login',
+
+            init: function () {
+                this.sendCount = 0;
+            },
+
+            onLoginClick: function (btn) {
+                this.login();
+            },
+
+            onFieldSpecialKey: function (field, e) {
+                if (e.getKey() === e.ENTER) {
+                    this.login();
+                }
+            },
+
+            login: function () {
+                var form = this.lookupReference('form');
+                this.lookupReference('error').hide();
+                if (form.isValid()) {
+                    console.log('Do the login!');
+                    // Server responded...
+                    if (++this.sendCount % 2 === 0) {
+                        this.onServerSuccess();
+                    } else {
+                        this.onServerFailure();
+                    }
+                }
+            },
+
+            onServerSuccess: function () {
+                // Proceed
+                console.log('All good');
+            },
+
+            onServerFailure: function () {
+                var error = this.lookupReference('error');
+                error.update('Invalid username/password');
+                error.show();
+            }
+        });
+
+        /**
+         * 定义view
+         */
+        Ext.define('MyApp.view.Login', {
+            extend: 'Ext.window.Window',
+            controller: 'login',
+            referenceHolder: true,
+
+            title: 'Login',
+            width: 400,
+
+            items: [{
+                xtype: 'form',
+                reference: 'form',
+                border: false,
+                bodyPadding: 10,
+                defaultType: 'textfield',
+                defaults: {
+                    anchor: '90%',
+                    allowBlank: false,
+                    enableKeyEvents: true
+                },
+                items: [{
+                    xtype: 'component',
+                    reference: 'error',
+                    hidden: true,
+                    margin: '0 0 10 0',
+                    style: 'color: red;'
+                }, {
+                    name: 'username',
+                    fieldLabel: 'Username',
+                    reference: 'username',
+                    listeners: {
+                        specialkey: 'onFieldSpecialKey'
+                    }
+                }, {
+                    name: 'password',
+                    fieldLabel: 'Password',
+                    reference: 'password',
+                    inputType: 'password',
+                    listeners: {
+                        specialkey: 'onFieldSpecialKey'
+                    }
+                }]
+            }],
+            buttons: ['->', {
+                text: 'Login',
+                listeners: {
+                    click: 'onLoginClick'
+                }
+            }]
+        });
+    });
+
+    Ext.onReady(function () {
+        Ext.create("MyApp.view.Login", {
+            renderTo: 'login1',
+            margin: 10,
+        });
+
+
+
+
+    })
+
+
+</script>
+</body>
+</html>

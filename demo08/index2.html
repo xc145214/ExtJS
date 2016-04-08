@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>button</h1>
+
+<div id="buttons"></div>
+
+<h1>button group</h1>
+<div id="buttonGroup"></div>
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+
+    Ext.onReady(function () {
+
+        /**
+         * 普通button
+         * @type {Ext.Button}
+         */
+        var button1 = Ext.create("Ext.Button", {
+            text: 'sample button',
+            scale: 'large',
+            enableToggle: true,
+            style: {margin: '10px'},
+            handler: function () {
+//                alert('You clicked the button!');
+
+                //提示
+                Ext.toast({
+                    html: 'Data Saved',
+                    title: 'tips',
+                    width: 300,
+                    animate: false,
+                    align: 'br'
+                });
+            },
+            listeners: {
+                click: function () {
+                    // this == the button, as we are in the local scope
+                    this.setText('I was clicked!');
+                },
+                mouseover: function () {
+                    // set a new config which says we moused over, if not already set
+                    if (!this.mousedOver) {
+                        this.mousedOver = true;
+                        alert('You moused over a button!\n\nI wont do this again.');
+                    }
+                }
+            }
+        });
+
+
+        /**
+         * 动态处理button
+         * @type {Ext.Button}
+         */
+        var dynamicButton = Ext.create('Ext.Button', {
+            text: 'Dynamic Handler Button',
+            style: {margin: '10px'},
+            handler: function () {
+                // this button will spit out a different number every time you click it.
+                // so firstly we must check if that number is already set:
+                if (this.clickCount) {
+                    // looks like the property is already set, so lets just add 1 to that number and alert the user
+                    this.clickCount++;
+                    alert('You have clicked the button "' + this.clickCount + '" times.\n\nTry clicking it again..');
+                } else {
+                    // if the clickCount property is not set, we will set it and alert the user
+                    this.clickCount = 1;
+                    alert('You just clicked the button for the first time!\n\nTry pressing it again..');
+                }
+            }
+        });
+
+
+        /**
+         * menubutton
+         * @type {Ext.Button}
+         */
+        var menuButton = Ext.create('Ext.Button', {
+            text: 'Menu button',
+            arrowAlign: 'bottom',
+            style: {margin: '10px'},
+            menu: [
+                {text: 'Item 1'},
+                {text: 'Item 2'},
+                {text: 'Item 3'},
+                {text: 'Item 4'}
+            ]
+        });
+
+
+        var cycleButton = Ext.create('Ext.button.Cycle', {
+            showText: true,
+            prependText: 'View as ',
+            margin: '10',
+            menu: {
+                id: 'view-type-menu',
+                items: [{
+                    text: 'text only',
+                    iconCls: 'view-text',
+                    checked: true
+                }, {
+                    text: 'HTML',
+                    iconCls: 'view-html'
+                }]
+            },
+            changeHandler: function (cycleBtn, activeItem) {
+                Ext.Msg.alert('Change View', activeItem.text);
+            }
+        });
+
+
+        var segmentedbutton = Ext.create('Ext.button.Segmented', {
+            renderTo: Ext.getBody(),
+            allowMultiple: true,
+            margin: '10',
+            items: [{
+                text: 'Segment Item 1',
+                menu: [{
+                    text: 'Menu Item 1'
+                }]
+            }, {
+                text: 'Segment Item 2',
+                tooltip: 'My custom tooltip'
+            }, {
+                text: 'Segment Item 3'
+            }],
+            listeners: {
+                toggle: function (container, button, pressed) {
+                    console.log("User toggled the '" + button.text + "' button: " + (pressed ? 'on' : 'off'));
+                }
+            }
+        });
+
+        var splitButton = Ext.create('Ext.button.Split', {
+            margin: 10,
+            text: 'Options',
+            // handle a click on the button itself
+            handler: function () {
+                alert("The button was clicked");
+            },
+            menu: new Ext.menu.Menu({
+                items: [
+                    // these will render as dropdown menu items when the arrow is clicked:
+                    {
+                        text: 'Item 1', handler: function () {
+                        alert("Item 1 clicked");
+                    }
+                    },
+                    {
+                        text: 'Item 2', handler: function () {
+                        alert("Item 2 clicked");
+                    }
+                    }
+                ]
+            })
+        });
+
+        Ext.create("Ext.Container", {
+//            renderTo: Ext.getBody(),
+            renderTo: 'buttons',//直接指向位置
+            layout: {
+                type: 'vbox',
+                align: 'left'
+            },
+            border: 1,
+            style: {borderColor: '#000000', borderStyle: 'solid', borderWidth: '1px'},
+            items: [
+                {
+                    xtype: 'label',
+                    forId: 'myFieldId',
+                    html: '<h1>各种button</h1>',
+                    margin: '0 0 0 10'
+                },
+                button1,
+                dynamicButton,
+                menuButton,
+                cycleButton,
+                segmentedbutton,
+                splitButton
+            ]
+        })
+    });
+
+
+    Ext.create('Ext.panel.Panel', {
+        title: 'Panel with ButtonGroup',
+        width: 500,
+        height: 300,
+        renderTo: 'buttonGroup',
+//        bodyPadding: 10,
+        html: 'HTML Panel Content',
+        tbar: [{
+            xtype: 'buttongroup',
+            columns: 3,
+            title: 'Clipboard',
+            items: [{
+                text: 'Paste',
+                scale: 'large',
+                rowspan: 3,
+                iconCls: 'add',
+                iconAlign: 'top',
+                cls: 'btn-as-arrow'
+            }, {
+                xtype: 'splitbutton',
+                text: 'Menu Button',
+                scale: 'large',
+                rowspan: 3,
+                iconCls: 'add',
+                iconAlign: 'top',
+                arrowAlign: 'bottom',
+                menu: [{text: 'Menu Item 1'}]
+            }, {
+                xtype: 'splitbutton', text: 'Cut', iconCls: 'add16', menu: [{text: 'Cut Menu Item'}]
+            }, {
+                text: 'Copy', iconCls: 'add16'
+            }, {
+                text: 'Format', iconCls: 'add16'
+            }]
+        }]
+    });
+
+</script>
+</body>
+</html>

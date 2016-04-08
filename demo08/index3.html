@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>container</h1>
+
+<div id="container1"></div>
+<div id="form1"></div>
+<div id="login"></div>
+
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+
+    Ext.onReady(function () {
+
+
+        Ext.create("Ext.Container", {
+            renderTo: 'container1',//直接指向位置
+            layout: {
+                type: 'hbox',
+            },
+            border: 1,
+            width: 900,
+            style: {borderColor: '#000000', borderStyle: 'solid', borderWidth: '1px'},
+            defaults: {
+                labelWidth: 80,
+                // implicitly create Container by specifying xtype
+                xtype: 'datefield',
+                flex: 1,
+                style: {
+                    padding: '10px'
+                }
+            },
+            items: [{
+                xtype: 'datefield',
+                name: 'startDate',
+                fieldLabel: 'Start date'
+            }, {
+                xtype: 'datefield',
+                name: 'endDate',
+                fieldLabel: 'End date'
+            },{
+                xtype:"button",
+                text:"select",
+                margin:10,
+                scale: 'small',
+                handler: function () {
+                    // execute an Ajax request to invoke server side script:
+                    Ext.Ajax.request({
+                        url: 'gen-invoice-grid.php',
+                        // send additional parameters to instruct server script
+                        params: {
+                            startDate: Ext.getCmp('start-date').getValue(),
+                            endDate: Ext.getCmp('end-date').getValue()
+                        },
+                        // process the response object to add it to the TabPanel:
+                        success: function (xhr) {
+                            var newComponent = eval(xhr.responseText); // see discussion below
+                            myTabPanel.add(newComponent); // add the component to the TabPanel
+                            myTabPanel.setActiveTab(newComponent);
+                        },
+                        failure: function () {
+                            Ext.Msg.alert("Grid create failed", "Server communication failure");
+                        }
+                    });
+
+                }
+            }]
+        });
+
+        Ext.define('MyView', {
+            extend: 'Ext.container.Container',
+            defaultListenerScope: true,
+            referenceHolder: true,
+            items: [{
+                xtype: 'textfield',
+                reference: 'myfield',
+                fieldLabel: 'value'
+            }, {
+                xtype: 'button',
+                text: 'Set to A',
+                listeners: {
+                    click: 'onButtonAClick'
+                }
+            }, {
+                xtype: 'button',
+                text: 'Set to B',
+                listeners: {
+                    click: 'onButtonBClick'
+                }
+            }],
+
+            onButtonAClick: function () {
+                this.lookupReference('myfield').setValue('A');
+            },
+
+            onButtonBClick: function () {
+                this.lookupReference('myfield').setValue('B');
+            }
+        });
+
+
+        Ext.create('MyView', {
+            renderTo: 'form1',
+            margin: 10
+        });
+
+
+
+
+
+
+
+    });
+
+
+</script>
+</body>
+</html>

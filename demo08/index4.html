@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>container</h1>
+
+<div id="container1"></div>
+<div id="form1"></div>
+<div id="login"></div>
+
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+
+    Ext.onReady(function () {
+
+
+        Ext.define('Login', {
+            extend: 'Ext.window.Window',
+
+            // This config is not compatible with the more common "controller" config
+            // used to specify a ViewController for the view. When a ViewController is
+            // specified it effectively acts as the "reference holder" for the view. In
+            // this example we simply mark this container as the reference holder for
+            // demonstration purposes.
+            referenceHolder: true,
+
+            title: 'Login',
+            items: [{
+                xtype: 'form',
+                items: [{
+                    xtype: 'textfield',
+                    reference: 'username', // A named reference to be held on the referenceHolder
+                    name: 'username',
+                    fieldLabel: 'Username'
+                }, {
+                    xtype: 'textfield',
+                    reference: 'password', // A named reference to be held on the referenceHolder
+                    name: 'password',
+                    fieldLabel: 'Password',
+                    value: "hello"
+                }]
+            }]
+        });
+
+
+        var w = new Login();
+        console.log(w.lookupReference('password').getValue()); // The password field
+
+
+        var ct = new Ext.container.Container({
+            referenceHolder: true,
+            items: [{
+                xtype: 'container',
+                referenceHolder: true,
+                reference: 'innerCt1',
+                items: [{
+                    xtype: 'component',
+                    reference: 'a',
+                    id: 'a1'
+                }, {
+                    xtype: 'component',
+                    reference: 'b',
+                    id: 'b1'
+                }]
+            }, {
+                xtype: 'container',
+                referenceHolder: true,
+                reference: 'innerCt2',
+                items: [{
+                    xtype: 'component',
+                    reference: 'a',
+                    id: 'a2'
+                }, {
+                    xtype: 'component',
+                    reference: 'b',
+                    id: 'b2'
+                }]
+            }]
+        });
+// The main container will not have references to a/b, each innerCt will be null
+        console.log(ct.lookupReference('a'), ct.lookupReference('b'));
+        var inner1 = ct.lookupReference('innerCt1');
+        var inner2 = ct.lookupReference('innerCt2');
+
+        console.log(inner1.lookupReference('a').id, inner1.lookupReference('b').id);
+        console.log(inner2.lookupReference('a').id, inner2.lookupReference('b').id);
+
+
+    });
+
+
+</script>
+</body>
+</html>

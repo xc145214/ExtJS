@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    var menus = {
+        "funcList": [{
+            "title": "系统管理",
+            "tree": [{
+                "id": 113,
+                "text": "系统用户",
+                "url": "/system/user/view",
+                "description": "系统用户",
+                "leaf": true,
+                "parentid": 112,
+                "parentName": null,
+                "checked": false,
+                "cls": "",
+                "moduleOr": 1,
+                "userID": 5,
+                "createId": 1,
+                "createName": null,
+                "createDate": 1448887501000,
+                "createDateStr": "2015-11-30 20:45:01",
+                "children": []
+            }, {
+                "id": 114,
+                "text": "角色管理",
+                "url": "/system/role/view",
+                "description": "角色管理",
+                "leaf": true,
+                "parentid": 112,
+                "parentName": null,
+                "checked": false,
+                "cls": "",
+                "moduleOr": 1,
+                "userID": 5,
+                "createId": 1,
+                "createName": null,
+                "createDate": 1448887531000,
+                "createDateStr": "2015-11-30 20:45:31",
+                "children": []
+            }, {
+                "id": 115,
+                "text": "权限管理",
+                "url": "/system/permission/view",
+                "description": "权限管理",
+                "leaf": true,
+                "parentid": 112,
+                "parentName": null,
+                "checked": false,
+                "cls": "",
+                "moduleOr": 1,
+                "userID": 5,
+                "createId": 1,
+                "createName": null,
+                "createDate": 1448887559000,
+                "createDateStr": "2015-11-30 20:45:59",
+                "children": []
+            }]
+        }, {
+            "title": "借款管理",
+            "tree": [{
+                "id": 120,
+                "text": "借款列表",
+                "url": "/admin/offline/debit/view",
+                "description": "借款列表",
+                "leaf": true,
+                "parentid": 117,
+                "parentName": null,
+                "checked": false,
+                "cls": "",
+                "moduleOr": 1,
+                "userID": 5,
+                "createId": 1,
+                "createName": null,
+                "createDate": 1449061657000,
+                "createDateStr": "2015-12-02 21:07:37",
+                "children": []
+            }]
+        },
+            {
+                "title": "列表管理",
+                "tree": [{
+                    "id": 122,
+                    "text": "初审管理",
+                    "url": "/admin/approve/preliminary/view",
+                    "description": "初审管理",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1449145670000,
+                    "createDateStr": "2015-12-03 20:27:50",
+                    "children": []
+                }, {
+                    "id": 123,
+                    "text": "复审列表",
+                    "url": "admin/review/view",
+                    "description": "复审列表",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1449145702000,
+                    "createDateStr": "2015-12-03 20:28:22",
+                    "children": []
+                }, {
+                    "id": 132,
+                    "text": "初审管理（审核中）",
+                    "url": "/admin/approve/preliminary/failView",
+                    "description": "专门用于初审失败，或者初审审核中状态的单的处理，这里不允许批量操作",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1451375243000,
+                    "createDateStr": "2015-12-29 15:47:23",
+                    "children": []
+                }, {
+                    "id": 133,
+                    "text": "复审列表（审核中）",
+                    "url": "admin/review/failView",
+                    "description": "主要用于复审失败或者复审状态中的，重新审核。",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1451375338000,
+                    "createDateStr": "2015-12-29 15:48:58",
+                    "children": []
+                }, {
+                    "id": 197,
+                    "text": "历史初审信息",
+                    "url": "/admin/list/view",
+                    "description": "历史初审信息",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1455764124000,
+                    "createDateStr": "2016-02-18 10:55:24",
+                    "children": []
+                }, {
+                    "id": 202,
+                    "text": "历史复审信息",
+                    "url": "/admin/list/review",
+                    "description": "历史复审信息",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1455936679000,
+                    "createDateStr": "2016-02-20 10:51:19",
+                    "children": []
+                }, {
+                    "id": 203,
+                    "text": "用户借款列表",
+                    "url": "/admin/list/debit",
+                    "description": "用户借款列表",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1455948312000,
+                    "createDateStr": "2016-02-20 14:05:12",
+                    "children": []
+                }, {
+                    "id": 204,
+                    "text": "还款计划",
+                    "url": "/admin/list/repaymentPlan",
+                    "description": "还款计划",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1456120389000,
+                    "createDateStr": "2016-02-22 13:53:09",
+                    "children": []
+                }, {
+                    "id": 205,
+                    "text": "快借待还款列表",
+                    "url": "/admin/list/repayingPlan",
+                    "description": "快借待还款列表",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1456125514000,
+                    "createDateStr": "2016-02-22 15:18:34",
+                    "children": []
+                }, {
+                    "id": 206,
+                    "text": "快借借款明细表",
+                    "url": "/admin/list/repaidDetail",
+                    "description": "快借借款明细表",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1456125581000,
+                    "createDateStr": "2016-02-22 15:19:41",
+                    "children": []
+                }, {
+                    "id": 248,
+                    "text": "快借支付明细表",
+                    "url": "/admin/list/repaymentDetail",
+                    "description": "快借支付明细表",
+                    "leaf": true,
+                    "parentid": 121,
+                    "parentName": null,
+                    "checked": false,
+                    "cls": "",
+                    "moduleOr": 1,
+                    "userID": 5,
+                    "createId": 1,
+                    "createName": null,
+                    "createDate": 1459489598000,
+                    "createDateStr": "2016-04-01 13:46:38",
+                    "children": []
+                }]
+            }
+        ], "loginUsername": "zhangsan001"
+    };
+    Ext.define("HlButton", {
+        extend: 'Ext.Button',
+        myTree: '',
+        constructor: function (config) {
+            this.myTree = config.myTree;
+            this.callParent(arguments);
+        }
+    });
+
+
+    var leftPanel = Ext.create("Ext.panel.Panel", {
+        layout: "vbox",
+        bodyStyle: "background-color: #dae7f6",
+        border: false,
+        height: '95%'
+    });
+
+    var rightPanel = Ext.create("Ext.panel.Panel", {
+        layout: 'fit',
+        border: false,
+        height: '95%'
+
+    });
+
+    var funcList = menus.funcList;
+
+    for (var i = 0; i < funcList.length; i++) {
+        var button = Ext.create('HlButton', {
+            text: "<font style='font-size: 12px'>" + funcList[i].title + "</font>",
+//            padding: '5 5 5 5',
+//            margins: '5 5 5 5',
+            border: false,
+//            width: 100,
+            height: 40,
+            width: '100%',
+            scale: "large",
+            myTree: funcList[i].tree,
+            handler: function () {
+
+                leftPanel.items.each(function (item, index, length) {
+                    if (item != null)
+                        item.el.setStyle('background-image', '');
+                });
+//                this.el.setStyle('background-image',
+//                        '-webkit-linear-gradient(top,#99bbe8 ,#157fcc 40%,#157fcc 30%,#99bbe8)');
+
+                var store = Ext.create('Ext.data.TreeStore', {
+                    root: {
+                        text: 'Ext JS',
+                        id: 'id',
+                        children: this.myTree
+                    }
+                });
+
+                var tree = Ext.create('Ext.tree.Panel', {
+                    id: 'tree',
+                    useArrows: true,
+                    rootVisible: false,
+                    store: store,
+                    border: false,
+                    autoWidth: true,
+                    autoHeight: true
+                });
+
+                // TreePanel 省略
+                tree.on('itemclick', function (view, record) {
+                    if (record.get('leaf')) {
+                        if (tabs.items.getCount() > 9) {
+                            Ext.MessageBox.show({
+                                title: '提示',
+                                msg: '为了性能起见，最多打开10个页签！',
+                                icon: Ext.Msg.ERROR,
+                                buttons: Ext.Msg.OK
+                            });
+                            return;
+                        }
+
+                        var tab = tabs.getComponent(record.get('id'));
+
+                        if (tab == null) {
+
+                            tab = tabs.add(Ext.widget('panel', {
+                                id: record.get('id'),
+                                title: record.get('text'),
+                                html: '<h2>'
+                                + basePath + record.get('url') + '</h2>',
+                                closable: true
+                            }));
+
+                        }
+                        tabs.setActiveTab(tab);
+                    }
+                });
+                rightPanel.removeAll();
+                rightPanel.add(tree);
+                tree.expandAll();
+            }
+        });
+
+        leftPanel.add(button);
+    }
+    var westPanel = Ext.create("Ext.panel.Panel", {
+        width: 350,
+        region: 'west', // for border layout
+        collapsible: true,
+        layout: 'hbox',
+        title: "功能列表",
+        split: true,
+        heigth: '95%',
+        autoScroll: true,
+        border: false,
+        defaults: {
+            // applied to each contained panel
+            bodyStyle: 'padding:0px'
+        },
+        layoutConfig: {
+            titleCollapse: true,// 表示单击标题就可以收缩，默认为fasle
+            animate: false
+            // 收缩时是否有动画
+        },
+        items: [{
+            flex: 1,
+            layout: 'fit',
+            border: false,
+            height: '100%',
+            items: leftPanel
+        }, {
+            flex: 3,
+            layout: 'fit',
+            border: false,
+            height: '100%',
+            items: rightPanel
+
+        }
+        ]
+    });
+
+    var basePath = "http://localhost:8080";
+    var tabs = Ext.create('Ext.tab.Panel', {
+        id: 'mainTab',
+        region: 'center', // for border layout
+        margins: '5 5 5 5',
+        defaults: {
+            bodyPadding: 10
+        },
+        items: [{
+            title: '首页',
+            itemId: 'fristpage',
+            closable: false,
+            html: '<h1>hello world!</h1>'
+        }
+        ],
+        plugins: Ext.create('Ext.ux.TabCloseMenu', {
+            closeTabText: '关闭当前',
+            closeOthersTabsText: '关闭其他',
+            closeAllTabsText: '关闭所有',
+            extraItemsTail: ['-', {
+                text: '可关闭',
+                checked: true,
+                hideOnClick: true,
+                handler: function (item) {
+                    currentItem.tab.setClosable(item.checked);
+                }
+            }],
+            listeners: {
+                aftermenu: function () {
+                    currentItem = null;
+                },
+                beforemenu: function (menu, item) {
+                    var menuitem = menu.child('*[text="可关闭"]');
+                    currentItem = item;
+                    menuitem.setChecked(item.closable);
+                }
+            }
+        })
+
+    });
+
+
+    var northPanel = Ext.create('Ext.panel.Panel', {
+        region: 'north', // for border layout
+        width: 1000,
+        height: 100,
+        layout: 'column',
+        items: [{
+            labelWidth: 100,
+            xtype: 'displayfield',
+            hiddenLabel: true,
+            columnWidth: 0.8,
+            margin: '0 0 0 10',
+            value: "<img src='" + basePath + "/resources/images/logo.png' style='width:300px;height:75px;top:0px;left:0px;margin-top:10'>"
+        }, {
+            labelWidth: 60,
+            fieldLabel: '当前用户',
+            xtype: 'displayfield',
+            columnWidth: 0.1,
+            margin: '70 0 0 10',
+            id: 'currentLoginName'
+        }, {
+            labelWidth: 100,
+            xtype: 'displayfield',
+            hiddenLabel: true,
+            columnWidth: 0.1,
+            margin: '70 0 0 10',
+            value: '<a href="' + basePath + '/logout">退出登录</a>'
+        }]
+        //html: "<img src='"+basePath+"/resources/images/logo.png' style='width:300px;height:75px;top:0px;left:0px;margin-top:10'>用户名：zhangsan001 <a href=\'#\'>退出</a></img>"
+    });
+
+
+    var win = Ext.create('Ext.container.Viewport', {
+        width: 500,
+        height: 300,
+        minWidth: 300,
+        minHeight: 200,
+        layout: 'border',
+        border: false,
+        plain: true,
+        items: [westPanel, tabs, northPanel]
+    });
+
+</script>
+</body>
+</html>
