@@ -1,0 +1,8 @@
+### ExtJs template
+.architect
+bootstrap.json
+build/
+ext/
+
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
