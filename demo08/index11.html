@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>form</h1>
+
+<div id="grid1"></div>
+<div id="grid2"></div>
+<div id="grid3"></div>
+<div id="grid4"></div>
+<div id="grid5"></div>
+<div id="grid6"></div>
+<div id="grid7"></div>
+<div id="grid8"></div>
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    Ext.tip.QuickTipManager.init();  // enable tooltips
+    Ext.onReady(function () {
+
+        Ext.create('Ext.data.Store', {
+            storeId: 'employeeStore',
+            fields: ['firstname', 'lastname', 'seniority', 'dep', 'hired'],
+            data: [
+                {firstname: "Michael", lastname: "Scott"},
+                {firstname: "Dwight", lastname: "Schrute"},
+                {firstname: "Jim", lastname: "Halpert"},
+                {firstname: "Kevin", lastname: "Malone"},
+                {firstname: "Angela", lastname: "Martin"}
+            ]
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'Action Column Demo',
+            store: Ext.data.StoreManager.lookup('employeeStore'),
+            columns: [
+                {text: 'First Name', dataIndex: 'firstname'},
+                {text: 'Last Name', dataIndex: 'lastname'},
+                {
+                    xtype: 'actioncolumn',
+                    width: 50,
+                    items: [{
+                        icon: 'extjs-build/examples/shared/icons/fam/cog_edit.png',  // Use a URL in the icon config
+                        tooltip: 'Edit',
+                        handler: function (grid, rowIndex, colIndex) {
+                            var rec = grid.getStore().getAt(rowIndex);
+                            alert("Edit " + rec.get('firstname'));
+                        }
+                    }, {
+                        icon: 'extjs-build/examples/restful/images/delete.png',
+                        tooltip: 'Delete',
+                        handler: function (grid, rowIndex, colIndex) {
+                            var rec = grid.getStore().getAt(rowIndex);
+                            alert("Terminate " + rec.get('firstname'));
+                        }
+                    }]
+                }
+            ],
+            width: 250,
+            renderTo: 'grid1'
+        });
+
+
+        Ext.create('Ext.data.Store', {
+            storeId: 'sampleStore',
+            fields: [
+                {name: 'framework', type: 'string'},
+                {name: 'rocks', type: 'boolean'}
+            ],
+            data: {
+                'items': [
+                    {'framework': "Ext JS 4", 'rocks': true},
+                    {'framework': "Sencha Touch", 'rocks': true},
+                    {'framework': "Ext GWT", 'rocks': true},
+                    {'framework': "Other Guys", 'rocks': false}
+                ]
+            },
+            proxy: {
+                type: 'memory',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items'
+                }
+            }
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'Boolean Column Demo',
+            store: Ext.data.StoreManager.lookup('sampleStore'),
+            columns: [
+                {text: 'Framework', dataIndex: 'framework', flex: 1},
+                {
+                    xtype: 'booleancolumn',
+                    text: 'Rocks',
+                    trueText: 'Yes',
+                    falseText: 'No',
+                    dataIndex: 'rocks'
+                }
+            ],
+            height: 200,
+            width: 400,
+            renderTo: 'grid2'
+        });
+
+
+
+
+        var store = Ext.create('Ext.data.Store', {
+            fields : ['name', 'email', 'phone', 'active'],
+            data   : {
+                items : [
+                    { name : 'Lisa',  email : 'lisa@simpsons.com',  phone : '555-111-1224', active : true  },
+                    { name : 'Bart',  email : 'bart@simpsons.com',  phone : '555-222-1234', active : true  },
+                    { name : 'Homer', email : 'homer@simpsons.com',  phone : '555-222-1244', active : false },
+                    { name : 'Marge', email : 'marge@simpsons.com', phone : '555-222-1254', active : true  }
+                ]
+            },
+            proxy  : {
+                type   : 'memory',
+                reader : {
+                    rootProperty : 'items',
+                    type         : 'json'
+                }
+            }
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title    : 'Simpsons',
+            height   : 200,
+            width    : 400,
+            renderTo :'grid3',
+            store    : store,
+            columns  : [
+                { text : 'Name', dataIndex : 'name' },
+                { text : 'Email', dataIndex : 'email', flex : 1 },
+                { text : 'Phone', dataIndex : 'phone' },
+                { xtype : 'checkcolumn', text : 'Active', dataIndex : 'active' }
+            ]
+        });
+
+        Ext.create('Ext.data.Store', {
+            storeId:'employeeStore',
+            fields:['rownumberer','firstname', 'lastname', 'seniority', 'dep', 'hired'],
+            data:[
+                {firstname:"Michael", lastname:"Scott", seniority:7, dep:"Management", hired:"01/10/2004"},
+                {firstname:"Dwight", lastname:"Schrute", seniority:2, dep:"Sales", hired:"04/01/2004"},
+                {firstname:"Jim", lastname:"Halpert", seniority:3, dep:"Sales", hired:"02/22/2006"},
+                {firstname:"Kevin", lastname:"Malone", seniority:4, dep:"Accounting", hired:"06/10/2007"},
+                {firstname:"Angela", lastname:"Martin", seniority:5, dep:"Accounting", hired:"10/21/2008"}
+            ]
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'Column Demo',
+            store: Ext.data.StoreManager.lookup('employeeStore'),
+            columns: [
+                {xtype: 'rownumberer'},
+                {text: 'First Name',  dataIndex:'firstname'},
+                {text: 'Last Name',  dataIndex:'lastname'},
+                {text: 'Hired Month',  dataIndex:'hired', xtype:'datecolumn', format:'M'},
+                {text: 'Department (Yrs)', xtype:'templatecolumn', tpl:'{dep} ({seniority})'}
+            ],
+            width: 800,
+            forceFit: true,
+            renderTo: 'grid4'
+        });
+
+
+        Ext.create('Ext.data.Store', {
+            storeId:'sampleStore',
+            fields:[
+                { name: 'symbol', type: 'string' },
+                { name: 'date',   type: 'date' },
+                { name: 'change', type: 'number' },
+                { name: 'volume', type: 'number' },
+                { name: 'topday', type: 'date' }
+            ],
+            data:[
+                { symbol: "msft",   date: '2011/04/22', change: 2.43, volume: 61606325, topday: '04/01/2010' },
+                { symbol: "goog",   date: '2011/04/22', change: 0.81, volume: 3053782,  topday: '04/11/2010' },
+                { symbol: "apple",  date: '2011/04/22', change: 1.35, volume: 24484858, topday: '04/28/2010' },
+                { symbol: "sencha", date: '2011/04/22', change: 8.85, volume: 5556351,  topday: '04/22/2010' }
+            ]
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'Date Column Demo',
+            store: Ext.data.StoreManager.lookup('sampleStore'),
+            columns: [
+                { text: 'Symbol',   dataIndex: 'symbol', flex: 1 },
+                { text: 'Date',     dataIndex: 'date',   xtype: 'datecolumn',   format:'Y-m-d' },
+                { text: 'Change',   dataIndex: 'change', xtype: 'numbercolumn', format:'0.00' },
+                { text: 'Volume',   dataIndex: 'volume', xtype: 'numbercolumn', format:'0,000' },
+                { text: 'Top Day',  dataIndex: 'topday', xtype: 'datecolumn',   format:'l' }
+            ],
+            height: 200,
+            width: 800,
+            renderTo: 'grid5'
+        });
+
+
+        Ext.create('Ext.data.Store', {
+            storeId:'sampleStore',
+            fields:[
+                { name: 'symbol', type: 'string' },
+                { name: 'price',  type: 'number' },
+                { name: 'change', type: 'number' },
+                { name: 'volume', type: 'number' }
+            ],
+            data:[
+                { symbol: "msft",   price: 25.76,  change: 2.43, volume: 61606325 },
+                { symbol: "goog",   price: 525.73, change: 0.81, volume: 3053782  },
+                { symbol: "apple",  price: 342.41, change: 1.35, volume: 24484858 },
+                { symbol: "sencha", price: 142.08, change: 8.85, volume: 5556351  }
+            ]
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'Number Column Demo',
+            store: Ext.data.StoreManager.lookup('sampleStore'),
+            columns: [
+                { text: 'Symbol',         dataIndex: 'symbol', flex: 1 },
+                { text: 'Current Price',  dataIndex: 'price',  renderer: Ext.util.Format.usMoney },
+                { text: 'Change',         dataIndex: 'change', xtype: 'numbercolumn', format:'0.00' },
+                { text: 'Volume',         dataIndex: 'volume', xtype: 'numbercolumn', format:'0,000' }
+            ],
+            height: 200,
+            width: 400,
+            renderTo: 'grid6'
+        });
+
+
+
+
+        Ext.create('Ext.data.Store', {
+            storeId:'employeeStore',
+            fields:['firstname', 'lastname', 'seniority', 'department'],
+            groupField: 'department',
+            data:[
+                { firstname: "Michael", lastname: "Scott",   seniority: 7, department: "Management" },
+                { firstname: "Dwight",  lastname: "Schrute", seniority: 2, department: "Sales" },
+                { firstname: "Jim",     lastname: "Halpert", seniority: 3, department: "Sales" },
+                { firstname: "Kevin",   lastname: "Malone",  seniority: 4, department: "Accounting" },
+                { firstname: "Angela",  lastname: "Martin",  seniority: 5, department: "Accounting" }
+            ]
+        });
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'Column Template Demo',
+            store: Ext.data.StoreManager.lookup('employeeStore'),
+            columns: [
+                { text: 'Full Name',       xtype: 'templatecolumn', tpl: '{firstname} {lastname}', flex:1 },
+                { text: 'Department (Yrs)', xtype: 'templatecolumn', tpl: '{department} ({seniority})',flex:1 }
+            ],
+            height: 200,
+            width: 600,
+            renderTo: 'grid7'
+        });
+
+
+        var grid = new Ext.grid.Panel({
+            title: 'Substation power monitor',
+            width: 600,
+            columns: [{
+                text: 'Id',
+                dataIndex: 'id',
+                width: 120
+            }, {
+                text: 'Rating',
+                dataIndex: 'maxCapacity',
+                width: 80
+            }, {
+                text: 'Avg.',
+                dataIndex: 'avg',
+                width: 85,
+                formatter: 'number("0.00")'
+            }, {
+                text: 'Max',
+                dataIndex: 'max',
+                width: 80
+            }, {
+                text: 'Instant',
+                dataIndex: 'instant',
+                width: 80
+            }, {
+                text: '%Capacity',
+                width: 150,
+
+                // This is our Widget column
+                xtype: 'widgetcolumn',
+                dataIndex: 'capacityUsed',
+
+                // This is the widget definition for each cell.
+                // Its "value" setting is taken from the column's dataIndex
+                widget: {
+                    xtype: 'progressbarwidget',
+                    textTpl: [
+                        '{percent:number("0")}% capacity'
+                    ]
+                }
+            }],
+            renderTo: 'grid8',
+            disableSelection: true,
+            store: {
+                fields: [{
+                    name: 'id',
+                    type: 'string'
+                }, {
+                    name: 'maxCapacity',
+                    type: 'int'
+                }, {
+                    name: 'avg',
+                    type: 'int',
+                    calculate: function(data) {
+                        // Make this depend upon the instant field being set which sets the sampleCount and total.
+                        // Use subscript format to access the other psuedo fields which are set by the instant field's converter
+                        return data.instant && data['total'] / data['sampleCount'];
+                    }
+                }, {
+                    name: 'max',
+                    type: 'int',
+                    calculate: function(data) {
+                        // This will be seen to depend on the "instant" field.
+                        // Use subscript format to access this field's current value to avoid circular dependency error.
+                        return (data['max'] || 0) < data.instant ? data.instant : data['max'];
+                    }
+                }, {
+                    name: 'instant',
+                    type: 'int',
+
+                    // Upon every update of instananeous power throughput,
+                    // update the sample count and total so that the max field can calculate itself
+                    convert: function(value, rec) {
+                        rec.data.sampleCount = (rec.data.sampleCount || 0) + 1;
+                        rec.data.total = (rec.data.total || 0) + value;
+                        return value;
+                    },
+                    depends: []
+                }, {
+                    name: 'capacityUsed',
+                    calculate: function(data) {
+                        return data.instant / data.maxCapacity;
+                    }
+                }],
+                data: [{
+                    id: 'Substation A',
+                    maxCapacity: 1000,
+                    avg: 770,
+                    max: 950,
+                    instant: 685
+                }, {
+                    id: 'Substation B',
+                    maxCapacity: 1000,
+                    avg: 819,
+                    max: 992,
+                    instant: 749
+                }, {
+                    id: 'Substation C',
+                    maxCapacity: 1000,
+                    avg: 588,
+                    max: 936,
+                    instant: 833
+                }, {
+                    id: 'Substation D',
+                    maxCapacity: 1000,
+                    avg: 639,
+                    max: 917,
+                    instant: 825
+                }]
+            }
+        });
+
+// Fake data updating...
+// Change one record per second to a random power value
+        Ext.interval(function() {
+            var recIdx = Ext.Number.randomInt(0, 3),
+                    newPowerReading = Ext.Number.randomInt(500, 1000);
+
+            grid.store.getAt(recIdx).set('instant', newPowerReading);
+        }, 1000);
+    });
+
+
+</script>
+</body>
+</html>

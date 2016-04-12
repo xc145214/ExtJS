@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>form</h1>
+
+<div id="form1"></div>
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    Ext.tip.QuickTipManager.init();  // enable tooltips
+    Ext.onReady(function () {
+
+
+        Ext.define('Ext.ux.CustomSpinner', {
+            extend: 'Ext.form.field.Spinner',
+            alias: 'widget.customspinner',
+
+            // override onSpinUp (using step isn't neccessary)
+            onSpinUp: function() {
+                var me = this;
+                if (!me.readOnly) {
+                    var val = parseInt(me.getValue().split(' '), 10)||0; // gets rid of " Pack", defaults to zero on parse failure
+                    me.setValue((val + me.step) + ' Pack');
+                }
+            },
+
+            // override onSpinDown
+            onSpinDown: function() {
+                var me = this;
+                if (!me.readOnly) {
+                    var val = parseInt(me.getValue().split(' '), 10)||0; // gets rid of " Pack", defaults to zero on parse failure
+                    if (val <= me.step) {
+                        me.setValue('Dry!');
+                    } else {
+                        me.setValue((val - me.step) + ' Pack');
+                    }
+                }
+            }
+        });
+
+
+
+        Ext.create('Ext.form.Panel', {
+            title: 'Basic Form',
+//            renderTo: Ext.get('form1'),
+            renderTo: 'form1',
+            bodyPadding: 5,
+            width: 600,
+
+            // Any configuration items here will be automatically passed along to
+            // the Ext.form.Basic instance when it gets created.
+
+            // The form will submit an AJAX request to this URL when submitted
+            url: 'save-form.php',
+
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: '文本',
+                name: 'theField'
+            },{
+                xtype: 'textfield',
+                name: 'name',
+                fieldLabel: 'Name',
+                allowBlank: false  // requires a non-empty value
+            }, {
+                xtype: 'textfield',
+                name: 'email',
+                fieldLabel: 'Email Address',
+                vtype: 'email'  // requires value to be a valid email address format
+            },{
+                xtype: 'textfield',
+                id:"loginName",
+                name: 'loginName',
+                fieldLabel: '登录名',
+                minLength:6,    //最少
+                maxLength:10,    //最长，
+//                regex:""   ,
+                validator : function () {
+                    console.info(Ext.getCmp('loginName').getValue())
+                }
+            }, {
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Size',
+                defaultType: 'radiofield',
+                defaults: {
+                    flex: 1
+                },
+                layout: 'hbox',
+                items: [
+                    {
+                        boxLabel: 'M',
+                        name: 'size',
+                        inputValue: 'm',
+                        id: 'radio1'
+                    }, {
+                        boxLabel: 'L',
+                        name: 'size',
+                        inputValue: 'l',
+                        id: 'radio2'
+                    }, {
+                        boxLabel: 'XL',
+                        name: 'size',
+                        inputValue: 'xl',
+                        id: 'radio3'
+                    }
+                ]
+            },
+                {
+                    xtype: 'fieldcontainer',
+                    fieldLabel: 'Color',
+                    defaultType: 'radiofield',
+                    defaults: {
+                        flex: 1
+                    },
+                    layout: 'hbox',
+                    items: [
+                        {
+                            boxLabel: 'Blue',
+                            name: 'color',
+                            inputValue: 'blue',
+                            id: 'radio4'
+                        }, {
+                            boxLabel: 'Grey',
+                            name: 'color',
+                            inputValue: 'grey',
+                            id: 'radio5'
+                        }, {
+                            boxLabel: 'Black',
+                            name: 'color',
+                            inputValue: 'black',
+                            id: 'radio6'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'customspinner',
+                    fieldLabel: 'How Much Beer?',
+                    step: 6
+                }
+
+            ],
+            bbar: [
+                {
+                    text: 'Smaller Size',
+                    handler: function () {
+                        var radio1 = Ext.getCmp('radio1'),
+                                radio2 = Ext.getCmp('radio2'),
+                                radio3 = Ext.getCmp('radio3');
+
+                        //if L is selected, change to M
+                        if (radio2.getValue()) {
+                            radio1.setValue(true);
+                            return;
+                        }
+
+                        //if XL is selected, change to L
+                        if (radio3.getValue()) {
+                            radio2.setValue(true);
+                            return;
+                        }
+
+                        //if nothing is set, set size to S
+                        radio1.setValue(true);
+                    }
+                },
+                {
+                    text: 'Larger Size',
+                    handler: function () {
+                        var radio1 = Ext.getCmp('radio1'),
+                                radio2 = Ext.getCmp('radio2'),
+                                radio3 = Ext.getCmp('radio3');
+
+                        //if M is selected, change to L
+                        if (radio1.getValue()) {
+                            radio2.setValue(true);
+                            return;
+                        }
+
+                        //if L is selected, change to XL
+                        if (radio2.getValue()) {
+                            radio3.setValue(true);
+                            return;
+                        }
+
+                        //if nothing is set, set size to XL
+                        radio3.setValue(true);
+                    }
+                },
+                '-',
+                {
+                    text: 'Select color',
+                    menu: {
+                        indent: false,
+                        items: [
+                            {
+                                text: 'Blue',
+                                handler: function () {
+                                    var radio = Ext.getCmp('radio4');
+                                    radio.setValue(true);
+                                }
+                            },
+                            {
+                                text: 'Grey',
+                                handler: function () {
+                                    var radio = Ext.getCmp('radio5');
+                                    radio.setValue(true);
+                                }
+                            },
+                            {
+                                text: 'Black',
+                                handler: function () {
+                                    var radio = Ext.getCmp('radio6');
+                                    radio.setValue(true);
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            buttons: [{
+                text: 'Submit',
+                handler: function () {
+                    // The getForm() method returns the Ext.form.Basic instance:
+                    var form = this.up('form').getForm();
+                    if (form.isValid()) {
+
+                        console.log(form);
+                        // Submit the Ajax request and handle the response
+                        form.submit({
+                            success: function (form, action) {
+                                Ext.Msg.alert('Success', action.result.message);
+                            },
+                            failure: function (form, action) {
+                                Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+                            }
+                        });
+                    }
+                }
+            }
+
+            ]
+        });
+
+    });
+
+
+</script>
+</body>
+</html>

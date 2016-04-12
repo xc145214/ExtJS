@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>hello world</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+</head>
+<body>
+
+<h1>form</h1>
+
+<div id="grid1"></div>
+<div id="grid2"></div>
+
+<script src="../share/ext/ext-all.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+<script src="../share/ext/util/TabCloseMenu.js"></script>
+<script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+<script>
+
+    Ext.tip.QuickTipManager.init();  // enable tooltips
+    Ext.onReady(function () {
+
+        Ext.create('Ext.data.Store', {
+            storeId: 'simpsonsStore',
+            fields: ['name', 'email', 'phone'],
+            data: {
+                'items': [
+                    {'name': 'Lisa', "email": "lisa@simpsons.com", "phone": "555-111-1224"},
+                    {'name': 'Bart', "email": "bart@simpsons.com", "phone": "555-222-1234"},
+                    {'name': 'Homer', "email": "homer@simpsons.com", "phone": "555-222-1244"},
+                    {'name': 'Marge', "email": "marge@simpsons.com", "phone": "555-222-1254"}
+                ]
+            },
+            proxy: {
+                type: 'memory',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'items'
+                }
+            }
+        });
+
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'grid1',
+            store: Ext.data.StoreManager.lookup('simpsonsStore'),
+            columns: [
+                {text: 'Name', dataIndex: 'name'},
+                {text: 'Email', dataIndex: 'email', flex: 1},
+                {text: 'Phone', dataIndex: 'phone'}
+            ],
+            height: 200,
+            width: 400,
+            renderTo: 'grid1'
+        });
+
+
+        Ext.create('Ext.grid.Panel', {
+            title: 'grid2',
+            store: Ext.data.StoreManager.lookup('simpsonsStore'),
+            columns: [
+                {
+                    text: 'Name',
+                    dataIndex: 'name',
+                    sortable: false,
+                    hideable: false,
+                    flex: 1
+                },
+                {
+                    text: 'Email',
+                    dataIndex: 'email',
+                    renderer: function (value) {
+                        return Ext.String.format('<a href="mailto:{0}">{1}</a>', value, value);
+                    }
+                },
+                {
+                    text: 'Phone',
+                    dataIndex: 'phone',
+                    width: 100
+                }
+            ],
+            height: 200,
+            width: 400,
+            renderTo: 'grid2',
+            items: [
+                {
+                    xtype: "propertygrid",
+                    width: 300,
+                    source: {
+                        "(name)": "My Object",
+                        "Created": Ext.Date.parse('10/15/2006', 'm/d/Y'),
+                        "Available": false,
+                        "Version": 0.01,
+                        "Description": "A test object"
+                    }
+                }
+            ]
+        });
+
+
+    });
+
+
+
+</script>
+</body>
+</html>
