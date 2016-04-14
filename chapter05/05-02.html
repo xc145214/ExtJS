@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel</title>
+    <link rel="stylesheet" href="../share/ext/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
+    <link rel="stylesheet" href="../share/css/font-awesome.css">
+    <script src="../share/ext/ext-all.js"></script>
+    <script src="../share/ext/ext-theme-neptune/build/ext-theme-neptune.js"></script>
+    <script src="../share/ext/ext-theme-neptune/build/ext-locale-zh_CN.js"></script>
+</head>
+<body>
+<h1> FramedPanels</h1>
+<div id="target"></div>
+
+
+<script>
+
+    Ext.onReady(function () {
+
+
+        Ext.define("view.panel.FramedPanels", {
+            extend: 'Ext.Container',
+            xtype: 'framed-panels',
+            width: 660,
+            requires: [
+                'Ext.layout.container.Table'
+            ],
+
+            layout: {
+                type: 'table',
+                columns: 3,
+                tdAttrs: {style: 'padding: 10px; vertical-align: top;'}
+            },
+
+            defaults: {
+                xtype: 'panel',
+                width: 200,
+                height: 280,
+                bodyPadding: 10
+            },
+
+            initComponent: function () {
+                this.items = [
+                    {
+                        html: "hello no title"
+                    },
+                    {
+                        title: 'Title',
+                        html: "hello title"
+                    },
+                    {
+                        title: 'Collapsible',
+                        collapsible: true,
+                        html: "hello title1"
+                    },
+                    {
+                        title: 'Tools',
+                        collapsed: true,
+                        collapsible: true,
+                        width: 640,
+                        html: "hello title 4",
+                        tools: [
+                            {type: 'pin'},
+                            {type: 'refresh'},
+                            {type: 'search'},
+                            {type: 'save'}
+                        ],
+                        colspan: 3
+                    }
+                ];
+
+                this.callParent();
+            }
+        });
+
+
+        Ext.create("view.panel.FramedPanels", {
+            renderTo: "target"
+        });
+
+
+    })
+</script>
+</body>
+</html>
